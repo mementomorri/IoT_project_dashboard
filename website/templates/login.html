@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% block title %}Авторизация{% endblock %} {% block content
+%}
+<form method="POST">
+  <h3 align="center">Авторизация</h3>
+  <div class="form-group">
+    <label for="email">Email адрес</label>
+    <input
+      type="email"
+      class="form-control"
+      id="email"
+      name="email"
+      placeholder="Введите ваш email"
+    />
+  </div>
+  <div class="form-group">
+    <label for="password">Пароль</label>
+    <input
+      type="password"
+      class="form-control"
+      id="password"
+      name="password"
+      placeholder="Введите парольы"
+    />
+  </div>
+  <br />
+  <button type="submit" class="btn btn-primary">Авторизоваться</button>
+</form>
+{% endblock %}

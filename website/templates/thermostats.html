@@ -1,0 +1,59 @@
+{% extends "base.html" %} {% block title %}Терморегуляторы{% endblock %} {% block content
+%}
+<h1 align="center">Ваши терморегуляторы</h1>
+<ul class="list-group list-group-flush" id="thermostats">
+  {% for thermostat in user.thermostats %}
+  <li class="list-group-item">
+    <ul class="list-group">
+      <li class="list-group-item" style="font-weight:bold">
+        {{ thermostat.name }} <span style="color:lightgrey;"> {{ thermostat.serial_num }} </span>
+      <button type="button" class="close" onClick="deleteThermostat('{{ thermostat.serial_num}}')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      </li>
+      <ul>
+        <li class="list-group-item">
+          Терморегулятор: {% if thermostat.turn_on %} <span style="color:green;"> включен </span> {% else %} <span style="color:red;"> выключен </span> {% endif %}
+          <button type="button" class="btn btn-secondary float-right" style="line-height: 1;" onClick="switchPower('{{ thermostat.serial_num}}')"> вкл/выкл </button>
+        </li>
+        <li class="list-group-item">
+          Wifi модуль: {% if thermostat.wifi %} <span style="color:green;"> включен </span> {% else %} <span style="color:red;"> выключен </span> {% endif %}
+          <button type="button" class="btn btn-secondary float-right" style="line-height: 1;" onClick="switchWifi('{{ thermostat.serial_num}}')"> вкл/выкл </button>
+        </li>
+        <li class="list-group-item"> Текущая температура: {{ thermostat.current_temp }}°C </li>
+        <li class="list-group-item">
+          Уставка: {{ thermostat.setpoint }}°C
+          <button type="button" class="close" style="padding-left:10px;" onClick="incrementSetpoint('{{ thermostat.serial_num}}')"> <span aria-hidden="true">&plus;</span> </button>
+          <button type="button" class="close" onClick="decrementSetpoint('{{ thermostat.serial_num}}')"> <span aria-hidden="true">&minus;</span> </button>
+        </li>
+        <li class="list-group-item">
+          Статус реле: {% if thermostat.relay %} <span style="color:green;"> включено </span> {% else %} <span style="color:red;"> выключено </span> {% endif %}
+          <button type="button" class="btn btn-secondary float-right" style="line-height: 1;" onClick="switchRelay('{{ thermostat.serial_num}}')"> вкл/выкл </button>
+        </li>
+        <li class="list-group-item">
+          Яркость: {{ thermostat.brightness }}%
+          <button type="button" class="close" style="padding-left:10px;" onClick="incrementBrightness('{{ thermostat.serial_num}}')"> <span aria-hidden="true">&plus;</span> </button>
+          <button type="button" class="close" onClick="decrementBrightness('{{ thermostat.serial_num}}')"> <span aria-hidden="true">&minus;</span> </button>
+        </li>
+        <li class="list-group-item">
+          Режим: {% if thermostat.mode %} <span style="color:orange;"> нагрев </span> {% else %} <span style="color:skyblue;"> охлаждение </span> {% endif %}
+          <button type="button" class="btn btn-secondary float-right" style="line-height: 1;" onClick="switchMode('{{ thermostat.serial_num}}')"> нагрев/охлаждение </button>
+        </li>
+        <li class="list-group-item">
+          Кнопки: {% if thermostat.lock %}  заблокированы {% else %} разблокированы {% endif %}
+          <button type="button" class="btn btn-secondary float-right" style="line-height: 1;" onClick="switchLock('{{ thermostat.serial_num}}')"> блок/разблок </button>
+        </li>
+      </ul>
+    </ul>
+
+  </li>
+  {% endfor %}
+</ul>
+<form method="POST">
+  <textarea name="thermostat_name" id="thermostat_name" class="form-control" placeholder="Введите имя нового терморегулятора"></textarea>
+  <br />
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Добавить терморегулятор</button>
+  </div>
+</form>
+{% endblock %}
